@@ -9,6 +9,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "tailwindcss": "npx tailwindcss -i ./src/index.css -o ./src/out.css --watch"
+
   },
   "dependencies": {
     "js-cookie": "^3.0.5",
