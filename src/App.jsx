@@ -343,8 +343,6 @@ const App = () => {
     prn.addText("以下のQRコードは、\n入場時・再入場時・大抽選会\nの");
     prn.addTextStyle(false, true, true, prn.COLOR_1);
     prn.addText("全てにおいて必要となります。\n");
-    prn.addTextStyle(false, true, true, prn.COLOR_1);
-    prn.addText("再発行はできません。\n");
     prn.addTextStyle(false, false, false, prn.COLOR_1);
     prn.addText("管理には十分ご注意ください。\n");
     prn.addFeedLine(4);
