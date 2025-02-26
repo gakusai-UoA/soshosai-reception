@@ -337,7 +337,7 @@ const App = () => {
     prn.addTextSmooth(false);
     prn.addFeedLine(1);
     prn.addTextSize(2, 2);
-    prn.addText("デジタル\n入場チケット\n");
+    prn.addText("入場チケット\n");
     prn.addTextSize(1, 1);
     prn.addFeedLine(1);
     prn.addText("以下のQRコードは、\n入場時・再入場時・大抽選会\nの");
