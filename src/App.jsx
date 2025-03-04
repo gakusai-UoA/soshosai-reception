@@ -316,6 +316,7 @@ const App = () => {
   };
 
   const print = async (response) => {
+    console.log(response);
     let groupId = response.group.GroupId;
     let prn = printer.current;
     if (!prn) {
