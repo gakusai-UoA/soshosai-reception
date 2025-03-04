@@ -374,7 +374,6 @@ const App = () => {
       prn.addTextLang("ja");
       prn.brightness = 1.0;
       prn.halftone = prn.HALFTONE_ERROR_DIFFUSION;
-      prn.addImage(context, 0, 0, 200, 200, prn.COLOR_1, prn.MODE_MONO);
       prn.addTextSmooth(true);
       prn.addFeedLine(1);
       prn.addTextSize(2, 2);
