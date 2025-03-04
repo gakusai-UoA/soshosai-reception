@@ -230,7 +230,7 @@ const App = () => {
       if (cf_response.ok) {
         showToast("送信成功", "データが送信されました。", "success");
         showToast("Status", "プリンタに印刷を行います。", "success");
-        await print(cf_data.GroupId);
+        await print(cf_data);
         showToast("成功", "プリンタでの印刷が完了しました。", "success");
         setAgeInput("");
         setNumberOfPeople("");
@@ -315,7 +315,8 @@ const App = () => {
     });
   };
 
-  const print = async (groupId) => {
+  const print = async (response) => {
+    let groupId = response.group.GroupId;
     let prn = printer.current;
     if (!prn) {
       await connect();
@@ -367,6 +368,30 @@ const App = () => {
     );
     prn.addFeedLine(2);
     prn.addCut(prn.CUT_FEED);
+    response.guests.forEach((guest, index) => {
+      prn.addTextAlign(prn.ALIGN_CENTER);
+      prn.addTextFont(prn.FONT_C);
+      prn.addTextLang("ja");
+      prn.brightness = 1.0;
+      prn.halftone = prn.HALFTONE_ERROR_DIFFUSION;
+      prn.addImage(context, 0, 0, 400, 400, prn.COLOR_1, prn.MODE_MONO);
+      prn.addTextSmooth(true);
+      prn.addFeedLine(1);
+      prn.addTextSize(2, 2);
+      prn.addText("蒼翔祭入場者ID\n");
+      prn.addFeedLine(2);
+      prn.addSymbol(
+        guest.GuestId,
+        prn.SYMBOL_QRCODE_MODEL_2,
+        prn.LEVEL_DEFAULT,
+        10,
+        0,
+        0
+      );
+      prn.addText(`${guest.GuestId}\n`);
+      prn.addFeedLine(3);
+      prn.addCut(prn.CUT_FEED);
+    });
     prn.send();
   };
 
