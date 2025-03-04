@@ -375,7 +375,7 @@ const App = () => {
       prn.addTextLang("ja");
       prn.brightness = 1.0;
       prn.halftone = prn.HALFTONE_ERROR_DIFFUSION;
-      prn.addImage(context, 0, 0, 400, 400, prn.COLOR_1, prn.MODE_MONO);
+      prn.addImage(context, 0, 0, 200, 200, prn.COLOR_1, prn.MODE_MONO);
       prn.addTextSmooth(true);
       prn.addFeedLine(1);
       prn.addTextSize(2, 2);
@@ -389,6 +389,7 @@ const App = () => {
         0,
         0
       );
+      prn.addTextSize(1, 1);
       prn.addText(`${guest.GuestId}\n`);
       prn.addFeedLine(3);
       prn.addCut(prn.CUT_FEED);
