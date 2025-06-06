@@ -210,7 +210,7 @@ const App = () => {
       };
 
       const url = new URL(
-        "https://api.100ticket.soshosai.com/groups/createGroup"
+        "https://api.sys.soshosai.com/groups/createGroup"
       );
 
       if (!printer.current) {
