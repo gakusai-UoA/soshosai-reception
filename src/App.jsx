@@ -200,22 +200,41 @@ const App = () => {
     setLoading(true);
 
     try {
+      // バリデーション
+      if (!finalGuestData || finalGuestData.length === 0) {
+        throw new Error("ゲストデータが必要です");
+      }
+
+      if (!memberCount || memberCount <= 0) {
+        throw new Error("有効なグループ人数を入力してください");
+      }
+
+      if (finalGuestData.length !== memberCount) {
+        throw new Error("グループ人数とゲストデータの数が一致しません");
+      }
+
+      const representativeData = finalGuestData[0];
+      if (!representativeData.ageRange || !representativeData.gender) {
+        throw new Error("代表者の年齢区分と性別は必須です");
+      }
+
+      // プリンターの接続確認
+      if (!printer.current) {
+        throw new Error("プリンターが接続されていません");
+      }
+
       const cf_payload = {
-        ageRange: finalGuestData[0].ageRange, // 代表者のデータ
-        gender: finalGuestData[0].gender, // 代表者のデータ
-        entranceTime: place == "new" ? "" : currentTime,
+        ageRange: representativeData.ageRange,
+        gender: representativeData.gender,
         memberCount: memberCount,
-        entrance: place == "new" ? "" : place,
-        guests: finalGuestData, // 全メンバーのデータ
+        entrance: place === "new" ? "" : place,
+        entranceTime: place === "new" ? "" : currentTime,
+        guests: finalGuestData
       };
 
       const url = new URL(
         "https://api.sys.soshosai.com/groups/createGroup"
       );
-
-      if (!printer.current) {
-        throw new Error("Printer is not connected");
-      }
 
       const cf_response = await fetch(url, {
         method: "POST",
@@ -225,23 +244,28 @@ const App = () => {
         body: JSON.stringify(cf_payload),
       });
 
-      const cf_data = await cf_response.json();
-
-      if (cf_response.ok) {
-        showToast("送信成功", "データが送信されました。", "success");
-        showToast("Status", "プリンタに印刷を行います。", "success");
-        await print(cf_data);
-        showToast("成功", "プリンタでの印刷が完了しました。", "success");
-        setAgeInput("");
-        setNumberOfPeople("");
-        setSelectedOption(null);
-        setGender("");
-        setLoading(false);
-        setStep(1);
-      } else {
-        throw new Error("Network response was not ok");
+      if (!cf_response.ok) {
+        const errorData = await cf_response.json();
+        throw new Error(errorData.error || "サーバーエラーが発生しました");
       }
+
+      const cf_data = await cf_response.json();
+      showToast("送信成功", "データが送信されました。", "success");
+      showToast("Status", "プリンタに印刷を行います。", "success");
+      
+      await print(cf_data);
+      showToast("成功", "プリンタでの印刷が完了しました。", "success");
+      
+      // フォームのリセット
+      setAgeInput("");
+      setNumberOfPeople("");
+      setSelectedOption(null);
+      setGender("");
+      setLoading(false);
+      setStep(1);
+
     } catch (error) {
+      setLoading(false);
       showToast(
         "エラー",
         `データの送信に失敗しました: ${error.message}`,
