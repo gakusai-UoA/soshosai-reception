@@ -233,13 +233,14 @@ const App = () => {
       };
 
       const url = new URL(
-        "https://api.sys.soshosai.com/groups/"
+        "https://api.sys.soshosai.com/groups"
       );
 
       const cf_response = await fetch(url, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "Authorization": "Bearer APIToken-admin-pra" // プリンター管理者用トークン
         },
         body: JSON.stringify(cf_payload),
       });
