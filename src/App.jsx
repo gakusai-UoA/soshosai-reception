@@ -233,7 +233,7 @@ const App = () => {
       };
 
       const url = new URL(
-        "https://api.sys.soshosai.com/groups/createGroup"
+        "https://api.sys.soshosai.com/groups/"
       );
 
       const cf_response = await fetch(url, {
