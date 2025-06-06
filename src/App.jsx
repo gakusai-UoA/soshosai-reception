@@ -393,7 +393,7 @@ const App = () => {
     );
     prn.addFeedLine(2);
     prn.addCut(prn.CUT_FEED);
-    response.guests.forEach((guest, index) => {
+    response.createdGuests.forEach((guest, index) => {
       prn.addTextAlign(prn.ALIGN_CENTER);
       prn.addTextFont(prn.FONT_C);
       prn.addTextLang("ja");
